@@ -35,7 +35,6 @@ class PublicUserApiTests(TestCase):
         self.assertNotIn('password', res.data)
 
     def test_user_exists(self):
-
         """Test craeting a user that already exists fails"""
         payload = {'email': 'test@londonappdev.com', 'password': 'testpass'}
         create_user(**payload)
@@ -92,12 +91,12 @@ class PublicUserApiTests(TestCase):
         """Test that authentication is required for users"""
         res = self.client.get(ME_URL)
 
-        self.assertEqual(res.status_code, status_code.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
 
 
 class PrivateUserApiTests(TestCase):
 
-    def setup(self):
+    def setUp(self):
         self.user = create_user(
             email='test@londonappdev.com',
             password='testpass',
@@ -132,5 +131,3 @@ class PrivateUserApiTests(TestCase):
         self.assertEqual(self.user.name, payload['name'])
         self.assertTrue(self.user.check_password(payload['password']))
         self.assertEqual(res.status_code, status.HTTP_200_OK)
-
-
